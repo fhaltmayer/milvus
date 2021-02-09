@@ -21,4 +21,6 @@ https://drive.google.com/file/d/1kWRApLKWveCHsdVH2TCNF2GPKRYw2ZdO/view?usp=shari
 
 https://drive.google.com/file/d/1KlgWG8pClNgX1LU2hvbgRBZQSFg_50ey/view
 
-5. Run: celeb_finder.py filepath_of_picture 
+5. Install requirements: pip install -r requirments.txt
+
+6. Run: python celeb_finder.py filepath_of_picture 
