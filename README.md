@@ -21,4 +21,4 @@ https://drive.google.com/file/d/1kWRApLKWveCHsdVH2TCNF2GPKRYw2ZdO/view?usp=shari
 
 https://drive.google.com/file/d/1KlgWG8pClNgX1LU2hvbgRBZQSFg_50ey/view
 
-5. Run: celeb_finder.py <filename of picture> 
+5. Run: celeb_finder.py filepath_of_picture 
