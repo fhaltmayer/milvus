@@ -123,7 +123,7 @@ def first_load():
     identity = np.load("identity_save.npy")
 
     encoded = np.array_split(encoded, 4, axis=0)
-    identity = identity.astype(np.int)
+    identity = identity.astype(int)
 
     identity = np.array_split(identity, 4, axis=0)
 
@@ -242,8 +242,9 @@ if __name__ == '__main__':
         prepare_data.unzip()
         print("Reorganizing Data...")
         prepare_data.reorganize()
-    if not (os.path.isfile("./encoded_save.npy") and os.path.isfile("./identity_save.npy")):
+    if not (os.path.isfile("./encoded_save.npy") and os.path.isfile("./identity_save.npy") and os.path.isfile("./id_to_class")):
         print("Processing Images...")
+        delete_collection()
         preprocess_images()
     if create_collection():
         first_load()
