@@ -106,9 +106,9 @@ def create_collection():
         try:
             with open ('id_to_class', 'rb') as fp:
                 id_to_identity = pickle.load(fp)
-            return 1
-        except:
             return 0
+        except:
+            return 1
             # Double check this logic above
 
 def first_load():
