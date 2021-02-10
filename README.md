@@ -5,9 +5,9 @@ How to Run:
 
 https://www.milvus.io/docs/install_milvus.md/
 
-2. Clone this github repo: git clone 
+2. Clone this github repo: 
 
-https://github.com/fhaltmayer/milvus.git 
+git clone https://github.com/fhaltmayer/milvus.git 
 
 3. Download each of these files and place them into the downloaded github repo:
 
@@ -19,7 +19,7 @@ https://drive.google.com/file/d/1_ee_0u7vcNLOfNLegJRHmolfH5ICW-XS/view?usp=shari
 
 https://drive.google.com/file/d/1kWRApLKWveCHsdVH2TCNF2GPKRYw2ZdO/view?usp=sharing 
 
-https://drive.google.com/file/d/1KlgWG8pClNgX1LU2hvbgRBZQSFg_50ey/view
+https://drive.google.com/file/d/1KlgWG8pClNgX1LU2hvbgRBZQSFg_50ey/view?usp=sharing 
 
 5. Install requirements: pip install -r requirments.txt
 
