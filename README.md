@@ -17,7 +17,7 @@ Scenario:
 
 One big use case for Milvus is for facial recognition. Facial recognition requires searching through millions of faces, with each face capable of having hundreds of separate embeddings. In order for this to be effective, it needs to be fast and scalable, both of which Milvus are.
 
-My implementation scales this down a bit and tries to find the celebrities that are in a photo/scene. It works by using a pytorch implementation of MTCNN and Facenet. MTCNN locates all the faces in the images and passes it to Facenet to create an embedding of each face. With this vector we can find the closest match within a milvus database of encoded celebrity faces. The result shows a few of the faces of the celebrity and a corresponding numeric code because the dataset of faces does not include names, but rather id tags.
+My implementation scales this down a bit and tries to find the celebrities that are in a photo/scene. It works by using a pytorch implementation of MTCNN and Facenet. MTCNN locates all the faces in the images and passes it to Facenet to create an embedding of each face. With this vector we can find the closest match within a Milvus database of encoded celebrity faces. The result shows a few of the faces of the celebrity and a corresponding numeric code because the dataset of faces does not include names, but rather id tags.
 
 
 How to Run:
