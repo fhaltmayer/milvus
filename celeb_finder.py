@@ -15,26 +15,33 @@ from torch.utils.data import DataLoader
 from  matplotlib import pyplot as plt
 
 _HOST = '127.0.0.1'
+
 _PORT = '19530' 
+
 collection_name = 'celebrity_faces_'
+
+_DIM = 512  
+
+_INDEX_FILE_SIZE = 32  
+
 id_to_identity = None
+
 milvus = Milvus(_HOST, _PORT)
 
 workers = 0 if os.name == 'nt' else 4
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 print('Running on device: {}'.format(device))
 
-
-def preprocess_images():
-
-    mtcnn = MTCNN(
+mtcnn = MTCNN(
         image_size=160, margin=0, min_face_size=20,
         thresholds=[0.6, 0.7, 0.7], factor=0.709, post_process=True, keep_all=True,
         device=device
     )
 
-    resnet = InceptionResnetV1(pretrained='vggface2').eval().to(device)
+resnet = InceptionResnetV1(pretrained='vggface2').eval().to(device)
 
+
+def preprocess_images():
 
     def collate_fn(x):
         return x[0]
@@ -56,7 +63,6 @@ def preprocess_images():
             plt.imshow(x)
             plt.show()
         if x_aligned is not None:
-            # x_aligned = torch.unsqueeze(x_aligned, dim=0)
             x_aligned = x_aligned.to(device)
             embeddings = resnet(x_aligned).detach().cpu()
             embeddings = embeddings.numpy()
@@ -80,18 +86,6 @@ def preprocess_images():
 
 
 
-mtcnn = MTCNN(
-        image_size=160, margin=0, min_face_size=20,
-        thresholds=[0.6, 0.7, 0.7], factor=0.709, post_process=True, keep_all=True,
-        device=device
-    )
-
-resnet = InceptionResnetV1(pretrained='vggface2').eval().to(device)
-
-_DIM = 512  
-
-_INDEX_FILE_SIZE = 32  
-
 def create_collection():
     global id_to_identity
     print("Creating collection...")
@@ -100,8 +94,8 @@ def create_collection():
         param = {
             'collection_name': collection_name,
             'dimension': _DIM,
-            'index_file_size': _INDEX_FILE_SIZE,  # optional
-            'metric_type': MetricType.L2  # optional
+            'index_file_size': _INDEX_FILE_SIZE,
+            'metric_type': MetricType.L2 
         }
 
         milvus.create_collection(param)
@@ -112,9 +106,10 @@ def create_collection():
         try:
             with open ('id_to_class', 'rb') as fp:
                 id_to_identity = pickle.load(fp)
-            return 0
+            return 1
         except:
             return 0
+            # Double check this logic above
 
 def first_load():
     global id_to_identity
@@ -138,13 +133,8 @@ def first_load():
             for z in range(len(ids)):
                 id_to_identity.append((ids[z], identity[x][z]))
 
-    # Flush collection  inserted data to disk.
     milvus.flush([collection_name])
-    # # Get demo_collection row count
-    # status, result = milvus.count_entities(collection_name)
 
-    # # present collection statistics info
-    # _, info = milvus.get_collection_stats(collection_name)
     with open('id_to_class', 'wb') as fp:
         pickle.dump(id_to_identity, fp)
     print("Vectors loaded in.")
@@ -177,11 +167,8 @@ def index():
     print("Indexed.")
 
 def search_image(file_loc):
-    # # Use the top 10 vectors for similarity search
     query_vectors, insert_image = get_image_vectors(file_loc)
 
-
-    # execute vector similarity search
     search_param = {
         "nprobe": 2056
     }
@@ -211,14 +198,12 @@ def search_image(file_loc):
 
             for i, file in enumerate(os.listdir(currentFolder)[0:total], 1):
                 fullpath = currentFolder+ "/" + file
-                # print(i, fullpath)
                 img = mpimg.imread(fullpath)
                 plt.subplot(2, 3, i)
                 plt.imshow(img)
         plt.show(block = False)
         print(temp)
 
-    # Delete demo_collection
 def delete_collection():
     status = milvus.drop_collection(collection_name)
 
@@ -231,10 +216,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     test_file = args.filename
-
-
-
-
 
     # delete_collection()
     if not os.path.isdir("./celeb_reorganized"):
