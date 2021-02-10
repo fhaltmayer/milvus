@@ -21,7 +21,7 @@ My implementation scales this down a bit and tries to find the celebrities that 
 
 
 How to Run:
-1. Setup and run Milvus: 
+1. Setup and run Milvus with default host/port: 
 
 https://www.milvus.io/docs/install_milvus.md/
 
