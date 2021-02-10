@@ -40,7 +40,7 @@ mtcnn = MTCNN(
 
 resnet = InceptionResnetV1(pretrained='vggface2').eval().to(device)
 
-
+# Turns all the celeb image data into embeddings.
 def preprocess_images():
 
     def collate_fn(x):
@@ -85,7 +85,7 @@ def preprocess_images():
 
 
 
-
+# Creates a milvus collection
 def create_collection():
     global id_to_identity
     print("Creating collection...")
@@ -109,8 +109,8 @@ def create_collection():
             return 0
         except:
             return 1
-            # Double check this logic above
 
+# Imports all the celeb embeddings into the created collection
 def first_load():
     global id_to_identity
     print("Loading in encoded vectors...")
@@ -139,7 +139,7 @@ def first_load():
         pickle.dump(id_to_identity, fp)
     print("Vectors loaded in.")
 
-
+# Gets embeddings for all the faces in the image. 
 def get_image_vectors(file_loc):
     img = Image.open(file_loc)
     bbx, prob = mtcnn.detect(img)
@@ -155,6 +155,7 @@ def get_image_vectors(file_loc):
 
     return embeddings, img
 
+# Indexes the collection
 def index():
     print("Indexing...")
 
@@ -166,6 +167,7 @@ def index():
 
     print("Indexed.")
 
+# Search for the nearest neighbor of the given image. 
 def search_image(file_loc):
     query_vectors, insert_image = get_image_vectors(file_loc)
 
@@ -204,6 +206,7 @@ def search_image(file_loc):
         plt.show(block = False)
         print(temp)
 
+# Delete the collection
 def delete_collection():
     status = milvus.drop_collection(collection_name)
 
