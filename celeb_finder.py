@@ -242,10 +242,12 @@ if __name__ == '__main__':
         prepare_data.unzip()
         print("Reorganizing Data...")
         prepare_data.reorganize()
-    if not (os.path.isfile("./encoded_save.npy") and os.path.isfile("./identity_save.npy") and os.path.isfile("./id_to_class")):
+    if not (os.path.isfile("./encoded_save.npy") and os.path.isfile("./identity_save.npy")):
         print("Processing Images...")
         delete_collection()
         preprocess_images()
+    if not (os.path.isfile("./id_to_class")):
+        delete_collection()
     if create_collection():
         first_load()
     index()
